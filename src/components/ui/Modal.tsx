@@ -5,16 +5,17 @@ interface IProps {
   isOpen: boolean;
   title?: string;
   children: ReactNode;
+  closeModal: () => void;
 }
 
-export default function Modal({ title, isOpen, children }: IProps) {
+export default function Modal({ title, isOpen, children, closeModal }: IProps) {
   return (
     <>
       <Dialog
         open={isOpen}
         as="div"
         className="relative z-10 focus:outline-none"
-        onClose={close}
+        onClose={closeModal}
       >
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">

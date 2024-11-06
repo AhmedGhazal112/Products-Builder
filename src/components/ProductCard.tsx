@@ -7,7 +7,7 @@ import CircleColor from "./ui/CircleColor";
 type TSetProduct = (updater: (prev: IProduct[]) => IProduct[]) => void;
 interface IProps {
   product: IProduct;
-  open: () => void;
+  openModal: () => void;
   setProductToEdit: (product: IProduct) => void;
   setTempColorsToEdit: (colors: string[]) => void;
   setProducts: TSetProduct;
@@ -16,14 +16,14 @@ const ProductCard = ({
   setProducts,
   setTempColorsToEdit,
   setProductToEdit,
-  open,
+  openModal,
   product,
 }: IProps) => {
   /* ______ Handlers ______ */
   const handleEditClick = () => {
     setTempColorsToEdit(product.colors);
     setProductToEdit(product);
-    open();
+    openModal();
   };
   const handleRemove = () => {
     setProducts((prev) => prev.filter((el) => el.id !== product.id));
@@ -35,17 +35,17 @@ const ProductCard = ({
           <Image
             url={product.url}
             alt="Product's Image"
-            className="rounded-md w-full h-full"
+            className="rounded-md w-full h-48"
           />
         </div>
         <h3>{product.title}</h3>
-        <p>{textSlicer(product.description)}</p>
+        <p className="flex-grow">{textSlicer(product.description)}</p>
         <div className="flex gap-0.5 items-center my-3 space-x-1">
           {product.colors.map((color) => {
             return <CircleColor color={color} />;
           })}
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between ">
           <span>{product.price}</span>
           <div className="flex items-center gap-1">
             <div>
@@ -58,7 +58,7 @@ const ProductCard = ({
             <span>{product.category.name}</span>
           </div>
         </div>
-        <div className="flex justify-between gap-1">
+        <div className=" flex justify-between gap-1">
           <Button onClick={handleEditClick} className="bg-indigo-700">
             Edit
           </Button>

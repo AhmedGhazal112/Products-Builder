@@ -32,10 +32,10 @@ const App = () => {
   const [products, setProducts] = useState<IProduct[]>(Products);
 
   /* ______ Handlers ______ */
-  function open() {
+  function openModal() {
     setIsOpen(true);
   }
-  function close() {
+  function closeModal() {
     setIsOpen(false);
   }
   function openEditForm() {
@@ -56,7 +56,7 @@ const App = () => {
       ];
     });
     setProduct(defaultProduct);
-    close();
+    closeModal();
   };
   const editProduct = () => {
     setProducts((prev) =>
@@ -104,7 +104,7 @@ const App = () => {
         setProducts={setProducts}
         setProductToEdit={setProductToEdit}
         setTempColorsToEdit={setTempColorsToEdit}
-        open={openEditForm}
+        openModal={openEditForm}
       />
     );
   });
@@ -112,7 +112,9 @@ const App = () => {
   const renderInputList = inputList.map((input) => {
     return (
       <div className="flex flex-col gap-2 mt-2">
-        <label htmlFor={input.id}>{input.label}</label>
+        <label htmlFor={input.id} className="text-sm font-medium text-gray-700">
+          {input.label}
+        </label>
         <Input
           type={input.type}
           id={input.id}
@@ -178,16 +180,19 @@ const App = () => {
   );
 
   return (
-    <main className="container mx-auto">
-      <Button onClick={open} className="bg-indigo-700">
+    <main className="container">
+      <Button
+        onClick={openModal}
+        className="block bg-indigo-700 hover:bg-indigo-800 mx-auto my-10 px-10 font-medium w-fit"
+      >
         Add New Product
       </Button>
-      <div className="m-2 rounded-md p-4  grid grid-cols-2 gap-2 md:gap-4 lg:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+      <div className="m-2 rounded-md p-4 gap-3 grid grid-cols-1  md:gap-4 lg:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {renderProducts}
       </div>
 
       {/* Add Product */}
-      <Modal title="Add Product" isOpen={isOpen}>
+      <Modal title="Add a New Product" isOpen={isOpen} closeModal={closeModal}>
         {renderInputList}
         {rendertempColors}
         <div className="flex space-x-1 mt-2 flex-wrap">{renderAllColors}</div>
@@ -196,14 +201,14 @@ const App = () => {
           <Button onClick={addProduct} className="bg-indigo-700">
             Submit
           </Button>
-          <Button onClick={close} className="bg-red-700">
+          <Button onClick={closeModal} className="bg-red-700">
             Cansel
           </Button>
         </div>
       </Modal>
 
       {/* Edit Product */}
-      <Modal title="Edit Product" isOpen={isOpenToEdit}>
+      <Modal title="Edit Product" isOpen={isOpenToEdit} closeModal={closeEditForm}>
         {renderInputListToEdit}
         {rendertempColorsToEdit}
         <div className="flex space-x-1 mt-2 flex-wrap">
